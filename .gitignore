@@ -1,0 +1,23 @@
+# Default ignored files
+.idea/*
+*.iml
+*.bak
+*.diff
+*-diff
+diff-*
+*.new
+*.lint
+
+# secrets.sh should never be committed unencrypted!
+secrets.sh
+# the only exception is the template file, because it should not contain real data
+#!/templates/secrets.sh
+# ignore the custom config, because this is special for projects
+/config/k8s_jcasc_custom.cnf
+# exclude .log files
+**/*.log
+**/*.log.1
+__k8smgmt__*
+
+# diff directories and diff files
+**/diff
