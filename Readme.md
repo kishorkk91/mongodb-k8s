@@ -8,6 +8,9 @@ If deployment is "standlone" then PVC should be created before deploying of mong
 For current requirement we will use just mongodb as standalone deployment instead of Replicaset.
 https://github.com/bitnami/charts/tree/master/bitnami/mongodb
 
+## Article
+https://medium.com/@kishorkotule1/deploy-bitnami-mongodb-chart-on-kubernetes-using-helm-89763d0f59c3
+
 ### Setting namespace permanently
 `kubectl config set-context --current --namespace=devops-databases
 `
@@ -19,7 +22,7 @@ https://github.com/bitnami/charts/tree/master/bitnami/mongodb
 `
 ### Additional play around after successful deployment
 
-MongoDB can be accessed on the following DNS name(s) and ports from within your cluster:
+MongoDB can be accessed on the following DNS name(s) and ports from within our cluster:
 
     mongodb.devops-databases.svc.cluster.local
 
@@ -27,14 +30,14 @@ To get the root password run:
 
     export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace devops-databases mongodb-root-admin-user -o jsonpath="{.data.mongodb-root-password}" | base64 --decode)
 
-To connect to your database, create a MongoDB&reg; client container:
+To connect to our database, create a MongoDB&reg; client container:
 
     kubectl run --namespace devops-databases mongodb-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.artifactory.devops.crealogix.com/bitnami/mongodb:4.4.10-debian-10-r0 --command -- bash
 
 Then, run the following command:
     mongo admin --host "mongodb" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
 
-To connect to your database from outside the cluster execute the following commands:
+To connect to our database from outside the cluster execute the following commands:
 
     kubectl port-forward --namespace devops-databases svc/mongodb 27017:27017 &
     mongo --host 127.0.0.1 --authenticationDatabase admin -p $MONGODB_ROOT_PASSWORD
@@ -66,4 +69,4 @@ global:
     - artifactory-docker-regcred
   storageClass: "nfs-client"
   
-### In this chart plain text password is used, of course you can use Secrets but just keep it as simple as intially  
+### In this chart plain text password is used, of course we can use Secrets but just keep it as simple as intially  
